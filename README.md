@@ -28,7 +28,28 @@ buf mod init
 buf mod update
 ~~~
 
+3. buf.work.yaml の作成
+- リポジトリのルートディレクトリに作成する
+- workspaceを定義するのに使われる
+- TODO
+~~~
+.
+├── buf.work.yaml
+├── paymentapis
+│   ├── acme
+│   │   └── payment
+│   │       └── v2
+│   │           └── payment.proto
+│   └── buf.yaml
+└── petapis
+    ├── acme
+    │   └── pet
+    │       └── v1
+    │           └── pet.proto
+    └── buf.yaml
+~~~
 
 ## 参考
+- [Buf - buf.work.yaml](https://buf.build/docs/configuration/v1/buf-work-yaml/)
 - [gRPC：buf とは、buf でできること - SYM's Tech Knowledge Index & Creation Records](https://symthy.hatenablog.com/entry/2023/03/26/010229) 
 - [Buf - buf](https://buf.build/docs/reference/cli/buf/)
