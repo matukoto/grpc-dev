@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package chat;
+
+import "google/api/annotations.proto";
+
+service Chat {
+  rpc Join (JoinRequest) returns (stream JoinResponse) {
+    option (google.api.http) = {
+      post: "/v1/chat/join"
+      body: "*"
+    };
+  }
+  rpc Send (SendRequest) returns (SendResponse) {
+    option (google.api.http) = {
+      post: "/v1/chat/send"
+      body: "*"
+    };
+  }
+}
