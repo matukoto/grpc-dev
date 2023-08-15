@@ -1,20 +1,36 @@
 syntax = "proto3";
 
-package chat;
+package chat.v1;
 
-import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
 
-service Chat {
-  rpc Join(JoinRequest) returns (stream JoinResponse) {
-    option (google.api.http) = {
-      post: "/v1/chat/join"
-      body: "*"
-    };
+service ChatService {
+  rpc Join(JoinRequest) returns (JoinResponse);
+  rpc Send(SendRequest) returns (SendResponse);
+}
+
+message JoinRequest {
+  string name = 1;
+}
+
+message JoinResponse {
+  string id = 1;
+  string message = 2;
+  int32 count = 3;
+  enum Status {
+    UNKNOWN = 0;
+    OK = 1;
+    ERROR = 2;
   }
-  rpc Send(SendRequest) returns (SendResponse) {
-    option (google.api.http) = {
-      post: "/v1/chat/send"
-      body: "*"
-    };
-  }
+}
+
+message SendRequest {
+  string id = 1;
+  string message = 2;
+}
+
+message SendResponse {
+  string id = 1;
+  string message = 2;
+  google.protobuf.Timestamp responsed_at = 3;
 }
