@@ -1,0 +1,61 @@
+// proto3 で記述する
+syntax = "proto3";
+
+// package は、ディレクトリ構造と同じにするのが一般的
+package chat.v1;
+
+// 他の proto を import することもできる
+import "chat/v1/chat_ex.proto";
+// timestamp を使うためには、google/protobuf/timestamp.proto を import する必要がある
+// timestamp などは  well-known types と呼ばれている
+// well-known typesとは公式に提供されている型のこと
+import "google/protobuf/timestamp.proto";
+
+/**
+ * サービスの定義
+ * ここでは、Say という RPC を定義している
+ * Say は、SayRequest を受け取って SayResponse を返す
+ */
+service ChatService {
+  // stream は、ストリーミング RPC を表す
+  // SayRequest の前に stream をつけることで、ストリーミング RPC になる
+  // Request がストリーミングなので、クライアントから複数の Request を受け取ることができる
+  // 例えば大きい画像を送るときに、画像を分割して送ることができる
+  rpc Say(stream SayRequest) returns (SayResponse);
+}
+
+// message は、データの構造を定義する
+// TypeScript では class で生成される
+message SayRequest {
+  string sentence = 1;
+  // optional は省略可能なフィールド
+  optional int32 number = 2;
+}
+
+message SayResponse {
+  // repeated は配列
+  repeated string sentence = 1;
+  // timestamp 型
+  google.protobuf.Timestamp responded_at = 2;
+  // enum 型
+  SayType say_type = 5;
+
+  // 廃番となったタグナンバーは下記のようにして再利用を防ぐ
+  // 再利用すると、既存のデータとの互換性がなくなる
+  // タグナンバーは変更しないようにする
+  // タグナンバーやフィールド名は、変更しないようにする
+  // 上記のような仕組みは、意図しない破壊的変更を防ぐためにある
+  reserved  3, 4;
+}
+
+// 列挙型
+enum SayType {
+  // 0 はデフォルト値
+  // 0 がデフォルト値なので、0 は使わないようにする
+  // これは Golang でも同じ?
+  SAY_TYPE_UNSPECIFIED = 0;
+
+  // 1 から順に値が振られる
+  SAY_TYPE_HELLO = 1;
+  SAY_TYPE_BYE = 2;
+}

@@ -1,0 +1,11 @@
+version: v1
+plugins:
+    # protoc を指定する
+    # protoc-gen-es
+  - plugin: buf.build/bufbuild/es:v1.2.0
+    opt: target=ts
+    out: ./src/gen
+    # protoc-gen-connect-es
+  - plugin: buf.build/bufbuild/connect-es:v0.8.6
+    opt: target=ts
+    out: ./src/gen

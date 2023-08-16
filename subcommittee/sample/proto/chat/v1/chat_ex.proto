@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package chat.v1;
+
+service Chat2Service {
+  rpc Join (JoinRequest) returns (stream JoinResponse) ;
+  rpc Send (SendRequest) returns (SendResponse) ;
+}
+
+message JoinRequest {
+  string name = 1;
+}
+
+message JoinResponse {
+  string message = 1;
+}
+
+message SendRequest {
+  string message = 1;
+}
+
+message SendResponse {
+  string message = 1;
+}
+
